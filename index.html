@@ -1,58 +1,170 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>Verdiq</title>
 
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css" />
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+  />
 </head>
 
 <body>
 
-<header>
-  <div class="logo">Verdiq</div>
+  <!-- BACKGROUND BLUR EFFECTS -->
+  <div class="bg-blur blur1"></div>
+  <div class="bg-blur blur2"></div>
 
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="dashboard.html">Dashboard</a>
-    <a href="login.html">Login</a>
-  </nav>
-</header>
+  <!-- HEADER -->
+  <header>
 
-<section class="hero">
+    <div class="logo">
+      🌱 Verdiq
+    </div>
 
-  <div class="hero-text">
-    <h1>Turn Eco Actions Into <span>Carbon Credits</span></h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="login.html">Login</a>
+    </nav>
 
-    <p>
-      Earn rewards by recycling, using public transport,
-      and reducing electricity consumption.
-    </p>
+  </header>
 
-    <a href="signup.html" class="btn">Get Started</a>
-  </div>
+  <!-- HERO SECTION -->
+  <section class="hero">
 
-  <div class="glass-card">
-    <h2>🌱 Wallet Balance</h2>
+    <div class="hero-text">
 
-    <div class="balance">1,280 CC</div>
+      <p class="small-tag">
+        Sustainable Rewards Platform
+      </p>
 
-    <p>Market Value</p>
-  </div>
+      <h1>
+        Turn Eco Actions Into
+        <span>Carbon Credits</span>
+      </h1>
 
-</section>
+      <p class="hero-description">
+        Earn rewards by recycling, walking, using public transport,
+        and saving electricity. Build a greener future while growing
+        your Verdiq wallet.
+      </p>
 
-<!-- =========================
-     FIREBASE SDK (FIXED)
-========================== -->
+      <div class="hero-buttons">
+        <a href="signup.html" class="btn primary-btn">
+          Get Started
+        </a>
 
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+        <a href="dashboard.html" class="btn secondary-btn">
+          View Dashboard
+        </a>
+      </div>
 
-<!-- YOUR APP -->
-<script src="js/app.js"></script>
+      <!-- STATS -->
+      <div class="stats">
+
+        <div class="stat-box">
+          <h2>12K+</h2>
+          <p>Credits Earned</p>
+        </div>
+
+        <div class="stat-box">
+          <h2>4.5T</h2>
+          <p>CO₂ Saved</p>
+        </div>
+
+        <div class="stat-box">
+          <h2>1.2K</h2>
+          <p>Active Users</p>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- GLASS CARD -->
+    <div class="glass-card">
+
+      <div class="card-top">
+        <p>🌍 Carbon Wallet</p>
+        <i class="fa-solid fa-leaf"></i>
+      </div>
+
+      <h2>Wallet Balance</h2>
+
+      <div class="balance">
+        1,280 CC
+      </div>
+
+      <div class="wallet-info">
+
+        <div>
+          <p class="label">CO₂ Saved</p>
+          <h3>512 kg</h3>
+        </div>
+
+        <div>
+          <p class="label">Wallet Value</p>
+          <h3>12.8 QAR</h3>
+        </div>
+
+      </div>
+
+      <button class="card-btn">
+        Eco Level: Green Explorer
+      </button>
+
+    </div>
+
+  </section>
+
+  <!-- FEATURES SECTION -->
+  <section class="features">
+
+    <h1>Why Choose Verdiq?</h1>
+
+    <div class="feature-grid">
+
+      <div class="feature-card">
+        <i class="fa-solid fa-wallet"></i>
+        <h2>Real-Time Wallet</h2>
+        <p>
+          Watch your carbon credits update instantly using Firebase.
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <i class="fa-solid fa-earth-americas"></i>
+        <h2>CO₂ Tracking</h2>
+        <p>
+          Monitor your environmental impact with live calculations.
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <i class="fa-solid fa-gift"></i>
+        <h2>Reward System</h2>
+        <p>
+          Convert eco-friendly actions into meaningful rewards.
+        </p>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- FIREBASE SDK -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+  <!-- APP -->
+  <script src="js/app.js"></script>
 
 </body>
 </html>
