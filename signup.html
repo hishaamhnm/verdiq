@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Signup - Verdiq</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    .auth-box input {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+    }
+
+    .auth-box button {
+      width: 100%;
+      padding: 12px;
+      background: #8cffb0;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .auth-box a {
+      text-decoration: none;
+    }
+  </style>
+
+</head>
+
+<body class="center-page">
+
+  <div class="auth-box">
+
+    <h1>Create Account</h1>
+
+    <!-- FULL NAME (optional future use) -->
+    <input 
+      type="text" 
+      id="signup-name" 
+      placeholder="Full name"
+    >
+
+    <!-- EMAIL -->
+    <input 
+      type="email" 
+      id="signup-email" 
+      placeholder="Enter email"
+      required
+    >
+
+    <!-- PASSWORD -->
+    <input 
+      type="password" 
+      id="signup-password" 
+      placeholder="Create password"
+      required
+    >
+
+    <!-- SIGNUP BUTTON -->
+    <button onclick="signup()">Sign Up</button>
+
+    <p style="margin-top:15px;">
+      Already have an account?
+      <a href="login.html">Login</a>
+    </p>
+
+  </div>
+
+  <!-- =========================
+       FIREBASE SDK (IMPORTANT)
+  ========================== -->
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+
+  <!-- YOUR APP LOGIC -->
+  <script src="js/app.js"></script>
+
+</body>
+</html>
