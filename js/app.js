@@ -11,14 +11,10 @@ const firebaseConfig = {
   appId: "1:318588137512:web:f162d7344f3b741869851d"
 };
 
+// initialize FIRST
+firebase.initializeApp(firebaseConfig);
 
-// =======================
-// INIT FIREBASE (SAFE)
-// =======================
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-}
-
+// THEN create db + auth
 const auth = firebase.auth();
 const db = firebase.firestore();
 
