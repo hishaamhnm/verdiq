@@ -36,6 +36,30 @@ function signup() {
     return;
   }
 
+  firebase.auth().createUserWithEmailAndPassword(email, password)
+    .then((userCredential) => {
+
+      // create wallet
+      const user = userCredential.user;
+
+      firebase.firestore().collection("wallets").doc(user.uid).set({
+        credits: 0,
+        co2: 0
+      });
+
+      // ✅ SUCCESS POPUP
+      alert("Successfully signed up!");
+
+      // redirect
+      window.location.href = "dashboard.html";
+
+    })
+    .catch((error) => {
+      alert(error.message);
+    });
+
+}
+
   auth.createUserWithEmailAndPassword(email, password)
     .then(userCredential => {
 
