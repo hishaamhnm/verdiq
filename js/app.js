@@ -1,4 +1,3 @@
-
 // =======================
 // FIREBASE CONFIG
 // =======================
@@ -13,7 +12,7 @@ const firebaseConfig = {
 
 
 // =======================
-// INIT FIREBASE (IMPORTANT ORDER)
+// INIT FIREBASE
 // =======================
 firebase.initializeApp(firebaseConfig);
 
@@ -26,33 +25,62 @@ const db = firebase.firestore();
 // =======================
 function signup() {
 
+  const name = document.getElementById("signup-name").value;
+  const dob = document.getElementById("signup-dob").value;
+  const phone = document.getElementById("signup-phone").value;
+  const qid = document.getElementById("signup-qid").value;
+
   const email = document.getElementById("signup-email").value;
   const password = document.getElementById("signup-password").value;
 
-  if (!email || !password) {
+  if (!name || !dob || !phone || !qid || !email || !password) {
     alert("Please fill all fields");
     return;
   }
 
   auth.createUserWithEmailAndPassword(email, password)
+
     .then(userCredential => {
 
       const user = userCredential.user;
 
-      // create wallet
-      db.collection("wallets").doc(user.uid).set({
-        credits: 0,
-        co2: 0
+      // SAVE USER PROFILE
+      return db.collection("users").doc(user.uid).set({
+
+        name: name,
+        dob: dob,
+        phone: phone,
+        qid: qid,
+        email: email
+
+      })
+
+      .then(() => {
+
+        // CREATE WALLET
+        return db.collection("wallets").doc(user.uid).set({
+          credits: 0,
+          co2: 0
+        });
+
       });
+
+    })
+
+    .then(() => {
 
       alert("Successfully signed up!");
 
       window.location.href = "dashboard.html";
 
     })
+
     .catch(error => {
+
       alert(error.message);
+
     });
+
 }
 
 
@@ -70,12 +98,19 @@ function login() {
   }
 
   auth.signInWithEmailAndPassword(email, password)
+
     .then(() => {
+
       window.location.href = "dashboard.html";
+
     })
+
     .catch(error => {
+
       alert(error.message);
+
     });
+
 }
 
 
@@ -83,9 +118,13 @@ function login() {
 // LOGOUT
 // =======================
 function logout() {
+
   auth.signOut().then(() => {
+
     window.location.href = "login.html";
+
   });
+
 }
 
 
@@ -96,9 +135,39 @@ auth.onAuthStateChanged(user => {
 
   if (!user) return;
 
+  // =======================
+  // SHOW EMAIL
+  // =======================
   const emailEl = document.getElementById("user-email");
-  if (emailEl) emailEl.innerText = user.email;
 
+  if (emailEl)
+    emailEl.innerText = user.email;
+
+
+  // =======================
+  // LOAD USER PROFILE
+  // =======================
+  db.collection("users")
+    .doc(user.uid)
+    .get()
+
+    .then(doc => {
+
+      if (!doc.exists) return;
+
+      const data = doc.data();
+
+      // SHOW NAME
+      if (document.getElementById("user-name"))
+        document.getElementById("user-name").innerText =
+          data.name;
+
+    });
+
+
+  // =======================
+  // LOAD WALLET
+  // =======================
   const walletRef = db.collection("wallets").doc(user.uid);
 
   walletRef.onSnapshot(doc => {
@@ -112,21 +181,29 @@ auth.onAuthStateChanged(user => {
 
     const valueInQAR = credits / 100;
 
-    // update UI safely
+
+    // SIDEBAR
     if (document.getElementById("credits"))
-      document.getElementById("credits").innerText = "Credits: " + credits;
+      document.getElementById("credits").innerText =
+        "Credits: " + credits;
 
     if (document.getElementById("co2"))
-      document.getElementById("co2").innerText = co2 + " kg";
+      document.getElementById("co2").innerText =
+        co2 + " kg";
 
+
+    // MAIN DASHBOARD
     if (document.getElementById("main-credits"))
-      document.getElementById("main-credits").innerText = credits + " CC";
+      document.getElementById("main-credits").innerText =
+        credits + " CC";
 
     if (document.getElementById("main-co2"))
-      document.getElementById("main-co2").innerText = co2 + " kg";
+      document.getElementById("main-co2").innerText =
+        co2 + " kg";
 
     if (document.getElementById("wallet-value"))
-      document.getElementById("wallet-value").innerText = valueInQAR.toFixed(2) + " QAR";
+      document.getElementById("wallet-value").innerText =
+        valueInQAR.toFixed(2) + " QAR";
 
   });
 
@@ -150,20 +227,30 @@ function addCredits(amount) {
   ref.get().then(doc => {
 
     if (!doc.exists) {
+
       return ref.set({
         credits: amount,
         co2: amount * 0.4
       });
+
     }
 
     return ref.update({
+
       credits: firebase.firestore.FieldValue.increment(amount),
+
       co2: firebase.firestore.FieldValue.increment(amount * 0.4)
+
     });
 
-  }).catch(error => {
+  })
+
+  .catch(error => {
+
     console.error(error);
+
     alert("Error updating credits");
+
   });
 
 }
