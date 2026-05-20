@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Verdiq Dashboard</title>
 
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
   <link rel="stylesheet" href="css/style.css">
 
   <style>
@@ -19,7 +23,6 @@
       display: flex;
     }
 
-    /* SIDEBAR */
     .sidebar {
       width: 260px;
       height: 100vh;
@@ -48,7 +51,6 @@
       font-weight: bold;
     }
 
-    /* MAIN */
     .content {
       margin-left: 260px;
       padding: 30px;
@@ -102,11 +104,6 @@
       background: #ff5c5c;
       color: white;
     }
-
-    .user-email {
-      font-size: 14px;
-      opacity: 0.8;
-    }
   </style>
 </head>
 
@@ -114,12 +111,60 @@
 
 <div class="dashboard">
 
+<!-- TOP RIGHT CORNER NAVIGATION -->
+<div class="top-nav-container">
+  <!-- Small live clock indicator -->
+  <span id="nav-clock" class="nav-clock-text">--:--:--</span>
+
+  <!-- Clickable User Profile Avatar Link -->
+  <div class="profile-trigger-zone" onclick="toggleProfileModal()">
+    <div class="user-avatar-circle">
+      <i class="fas fa-user"></i> <!-- Standard FontAwesome Icon -->
+    </div>
+    <span id="nav-user-name" class="nav-username-label">Loading...</span>
+  </div>
+</div>
+
+<!-- DARK GRAPHICAL USER MODAL OVERLAY -->
+<div id="profile-modal-overlay" class="profile-overlay-bg" onclick="toggleProfileModal()">
+  <!-- Modal Card Content Box (Stops click propagation so it doesn't close itself) -->
+  <div class="profile-modal-card" onclick="event.stopPropagation()">
+    <button class="close-modal-btn" onclick="toggleProfileModal()">&times;</button>
+    
+    <div class="modal-profile-header">
+      <div class="large-avatar-circle"><i class="fas fa-user-shield"></i></div>
+      <h3 id="modal-display-name">User Account Profile</h3>
+      <p id="modal-display-email" class="modal-subtitle">email@address.com</p>
+    </div>
+
+    <div class="modal-info-grid">
+      <div class="info-field-item">
+        <label>Full Legal Name</label>
+        <p id="info-profile-name">---</p>
+      </div>
+      <div class="info-field-item">
+        <label>QID / Identity Number</label>
+        <p id="info-profile-qid">---</p>
+      </div>
+      <div class="info-field-item">
+        <label>Mobile Number</label>
+        <p id="info-profile-phone">---</p>
+      </div>
+      <div class="info-field-item">
+        <label>Date of Birth</label>
+        <p id="info-profile-dob">---</p>
+      </div>
+    </div>
+  </div>
+</div>
+
   <!-- SIDEBAR -->
   <div class="sidebar">
 
     <h2>Verdiq 🌱</h2>
 
-    <p class="user-email" id="user-email">Loading...</p>
+    <p id="user-name">Loading...</p>
+    <p id="user-email">Loading...</p>
 
     <hr style="opacity:0.2; margin:15px 0;">
 
@@ -133,14 +178,13 @@
 
   </div>
 
-  <!-- MAIN CONTENT -->
+  <!-- MAIN -->
   <div class="content">
 
     <div class="topbar">
       <h1>Dashboard</h1>
     </div>
 
-    <!-- CARDS -->
     <div class="grid">
 
       <div class="card">
@@ -164,49 +208,57 @@
         <p>Recycle, travel green, save energy → earn credits</p>
       </div>
 
+      <div class="card">
+        <h3>📊 Eco Progress</h3>
+        <canvas id="ecoChart"></canvas>
+      </div>
+
+      <button class="reward-btn" onclick="window.location.href='rewards.html'">
+        🛍 Rewards Store
+      </button>
+
     </div>
 
-    <!-- ACTIONS -->
     <div class="actions">
 
-      <h2>Test Actions</h2>
+      <h2>Earn Carbon Credits</h2>
 
-      <div class="actions">
+      <button class="btn" onclick="addCredits(10, 'transport')">🚆 Public Transport (+10)</button>
+      <button class="btn" onclick="addCredits(20, 'recycling')">♻ Recycling (+20)</button>
+      <button class="btn" onclick="addCredits(15, 'walking')">🚶 Walking / Cycling (+15)</button>
+      <button class="btn" onclick="addCredits(25, 'energy')">⚡ Saved Electricity (+25)</button>
+      <button class="btn" onclick="addCredits(30, 'purchase')">🌱 Eco Purchase (+30)</button>
 
-  <h2>Earn Carbon Credits</h2>
+      <button class="upload-btn" onclick="window.location.href='recycling.html'">
+        ♻ Submit Recycling Proof
+      </button>
 
-  <button class="btn" onclick="addCredits(10)">
-    🚆 Public Transport (+10)
-  </button>
+      <button class="btn danger" onclick="addCredits(-10, 'penalty')">
+        ❌ Carbon Penalty (-10)
+      </button>
 
-  <button class="btn" onclick="addCredits(20)">
-    ♻ Recycling (+20)
-  </button>
+    </div>
 
-  <button class="btn" onclick="addCredits(15)">
-    🚶 Walking / Cycling (+15)
-  </button>
-
-  <button class="btn" onclick="addCredits(25)">
-    ⚡ Saved Electricity (+25)
-  </button>
-
-  <button class="btn" onclick="addCredits(30)">
-    🌱 Eco Purchase (+30)
-  </button>
-
-  <button class="btn danger" onclick="addCredits(-10)">
-    ❌ Carbon Penalty (-10)
-  </button>
-
+  </div>
 </div>
+
+
 
 <!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
+<!-- SUPABASE (Added missing CDN library here) -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<!-- APPLICATION SCRIPT -->
 <script src="js/app.js"></script>
+
+<!-- Update your dashboard button to hit the entry login page -->
+<button id="ghost-admin-zone" onclick="window.location.href='admin-login.html'">
+  <span class="lock-icon">🔒</span> Admin
+</button>
 
 </body>
 </html>
